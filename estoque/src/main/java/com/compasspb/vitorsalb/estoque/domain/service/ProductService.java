@@ -1,49 +1,80 @@
 package com.compasspb.vitorsalb.estoque.domain.service;
 
+import com.compasspb.vitorsalb.estoque.api.controller.ProductController;
+import com.compasspb.vitorsalb.estoque.api.dto.ProductDto;
+import com.compasspb.vitorsalb.estoque.api.dto.mapper.Mapper;
 import com.compasspb.vitorsalb.estoque.domain.entity.Product;
 import com.compasspb.vitorsalb.estoque.domain.repository.ProductRepository;
+import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @Service
 public class ProductService {
+
+    private static final Logger log = LoggerFactory.getLogger(ProductService.class);
 
     @Autowired
     private ProductRepository repository;
 
-    public Product save(Product product) {
-        return repository.save(product);
+    public ProductDto save(ProductDto product) {
+
+        if (product == null) throw new RuntimeException("Required Objects Is Null"); // change exception
+
+        log.info("Creating one product!");
+
+        Product entity = Mapper.toEntity(product, Product.class);
+        ProductDto dto = Mapper.toDto(repository.save(entity), ProductDto.class);
+        dto.add(linkTo(methodOn(ProductController.class).findById(dto.getId())).withSelfRel());
+        return dto;
     }
 
-    public Product findById(Long id) {
-        Optional<Product> optionalProduct = repository.findById(id);
-        if (optionalProduct.isEmpty()) throw new RuntimeException("Product Not Founded: " + id); // change exception
+    public ProductDto findById(Long id) {
+        log.info("Finding one product with ID!");
 
-        return optionalProduct.get();
+        Product entity = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No records found for this ID!"));
+        ProductDto dto = Mapper.toDto(entity, ProductDto.class);
+        dto.add(linkTo(methodOn(ProductController.class).findById(id)).withSelfRel());
+        return dto;
     }
 
-    public Product findByName(String name) {
-        Optional<Product> optionalProduct = repository.findByName(name);
-        if (optionalProduct.isEmpty()) throw new RuntimeException("Product Not Founded: " + name); // change exception
+    public ProductDto findByName(String name) {
+        log.info("Finding one product with name!");
 
-        return optionalProduct.get();
+        Product entity = repository.findByName(name)
+                .orElseThrow(() -> new RuntimeException("No records found for this Name!"));
+        ProductDto dto = Mapper.toDto(entity, ProductDto.class);
+        dto.add(linkTo(methodOn(ProductController.class).findById(entity.getId())).withSelfRel());
+        return dto;
     }
 
-    public Product addProduct(String name, Integer quantity) {
-        Product p = findByName(name);
-        p.setQuantity(p.getQuantity() + quantity);
-        return repository.save(p);
+    public ProductDto addProduct(String name, Integer quantity) {
+        ProductDto p = findByName(name);
+
+        Product entity = Mapper.toEntity(p, Product.class);
+        entity.setQuantity(entity.getQuantity() + quantity);
+        ProductDto dto = Mapper.toDto(repository.save(entity), ProductDto.class);
+        dto.add(linkTo(methodOn(ProductController.class).findById(dto.getId())).withSelfRel());
+        return dto;
     }
 
-    public Product removeProduct(String name, Integer quantity) {
-        Product p = findByName(name);
-        p.setQuantity(p.getQuantity() - quantity);
-        return repository.save(p);
-    }
+    public ProductDto removeProduct(String name, Integer quantity) {
+        ProductDto p = findByName(name);
+        Product entity = Mapper.toEntity(p, Product.class);
 
-    public Product updateProduct(Product product) {
-        return null; // algum dia fazer esta funação kk
+        if (quantity > entity.getQuantity()) throw new RuntimeException("The value inserted is more than of quantity in stock");
+
+        entity.setQuantity(entity.getQuantity() - quantity);
+        ProductDto dto = Mapper.toDto(repository.save(entity), ProductDto.class);
+        dto.add(linkTo(methodOn(ProductController.class).findById(dto.getId())).withSelfRel());
+        return dto;
     }
 }

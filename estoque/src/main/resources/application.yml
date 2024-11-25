@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: estoque
+  datasource:
+    url: jdbc:postgresql://localhost:5432/d3
+    username: user
+    password: 12345678
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  sql:
+    init:
+      mode: always

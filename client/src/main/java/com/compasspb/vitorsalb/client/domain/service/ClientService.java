@@ -1,0 +1,86 @@
+package com.compasspb.vitorsalb.client.domain.service;
+
+import com.compasspb.vitorsalb.client.api.controller.ClientController;
+import com.compasspb.vitorsalb.client.api.dto.ClientDto;
+import com.compasspb.vitorsalb.client.api.dto.mapper.Mapper;
+import com.compasspb.vitorsalb.client.domain.entity.Client;
+import com.compasspb.vitorsalb.client.domain.repository.ClientRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+@Service
+public class ClientService {
+
+    private static final Logger log = LoggerFactory.getLogger(ClientRepository.class);
+
+    @Autowired
+    private ClientRepository repository;
+
+    @Transactional
+    public ClientDto create(ClientDto clientDto) {
+
+        if (clientDto == null) throw new RuntimeException("Required Objects Is Null"); // change exception
+
+        log.info("Creating one client!");
+
+        Client entity = Mapper.toEntity(clientDto, Client.class);
+        ClientDto dto = Mapper.toDto(repository.save(entity), ClientDto.class);
+        dto.add(linkTo(methodOn(ClientController.class).findById(dto.getId())).withSelfRel());
+        return dto;
+    }
+
+    public Page<ClientDto> findAll(Pageable pageable) {
+        log.info("Finding all client!");
+
+        Page<Client> products = repository.findAllp(pageable);
+        Page<ClientDto> dtos = Mapper.mapEntityPageToDtoPage(products, ClientDto.class);
+        dtos.forEach(d -> d.add(linkTo(methodOn(ClientController.class).findById(d.getId())).withSelfRel()));
+        return dtos;
+    }
+
+    public ClientDto findById(Long id) {
+        log.info("Finding one client with ID!");
+
+        Client entity = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No records found for this ID!"));
+        ClientDto dto = Mapper.toDto(entity, ClientDto.class);
+        dto.add(linkTo(methodOn(ClientController.class).findById(id)).withSelfRel());
+        return dto;
+    }
+
+    public ClientDto findByEmail(String email) {
+        log.info("Finding one client with email!");
+
+        Client entity = repository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("No records found for this email!"));
+        ClientDto dto = Mapper.toDto(entity, ClientDto.class);
+        dto.add(linkTo(methodOn(ClientController.class).findById(dto.getId())).withSelfRel());
+        return dto;
+    }
+
+    @Transactional
+    public ClientDto update(ClientDto clientDto, String email) {
+
+        Client client = Mapper.toEntity(findByEmail(email), Client.class);
+
+        client.setFirstName(clientDto.getFirstName());
+        client.setLastName(clientDto.getLastName());
+        client.setEmail(clientDto.getEmail());
+        client.setBirthday(clientDto.getBirthday());
+
+        Client entity = repository.save(client);
+        ClientDto dto = Mapper.toDto(repository.save(entity), ClientDto.class);
+        dto.add(linkTo(methodOn(ClientController.class).findById(dto.getId())).withSelfRel());
+
+        return dto;
+    }
+
+}

@@ -33,6 +33,11 @@ public class ProductController {
         return ResponseEntity.ok(service.findById(id));
     }
 
+    @GetMapping("/name/{name}")
+    public ResponseEntity<ProductDto> findById(@PathVariable(value = "name") String name) {
+        return ResponseEntity.ok(service.findByName(name));
+    }
+
     @PostMapping
     public ResponseEntity<ProductDto> create(@RequestBody ProductDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(dto));

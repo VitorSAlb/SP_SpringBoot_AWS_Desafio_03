@@ -5,15 +5,12 @@ import com.compasspb.vitorsalb.estoque.api.dto.ProductDto;
 import com.compasspb.vitorsalb.estoque.api.dto.mapper.Mapper;
 import com.compasspb.vitorsalb.estoque.domain.entity.Product;
 import com.compasspb.vitorsalb.estoque.domain.repository.ProductRepository;
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;

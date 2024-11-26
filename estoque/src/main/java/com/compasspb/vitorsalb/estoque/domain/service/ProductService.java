@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -23,6 +24,7 @@ public class ProductService {
     @Autowired
     private ProductRepository repository;
 
+    @Transactional
     public ProductDto save(ProductDto product) {
 
         if (product == null) throw new RuntimeException("Required Objects Is Null"); // change exception
@@ -64,6 +66,7 @@ public class ProductService {
         return dto;
     }
 
+    @Transactional
     public ProductDto addProduct(String name, Integer quantity) {
         log.info("Adding products!");
 
@@ -76,6 +79,7 @@ public class ProductService {
         return dto;
     }
 
+    @Transactional
     public ProductDto removeProduct(String name, Integer quantity) {
         log.info("Removing products!");
 

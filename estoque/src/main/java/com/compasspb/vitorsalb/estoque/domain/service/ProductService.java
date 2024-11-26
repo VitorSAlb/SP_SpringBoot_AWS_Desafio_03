@@ -9,6 +9,8 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -36,6 +38,15 @@ public class ProductService {
         return dto;
     }
 
+    public Page<ProductDto> findAll(Pageable pageable) {
+        log.info("Finding all products!");
+
+        Page<Product> products = repository.findAllp(pageable);
+        Page<ProductDto> dtos = Mapper.mapEntityPageToDtoPage(products, ProductDto.class);
+        dtos.forEach(d -> d.add(linkTo(methodOn(ProductController.class).findById(d.getId())).withSelfRel()));
+        return dtos;
+    }
+
     public ProductDto findById(Long id) {
         log.info("Finding one product with ID!");
 
@@ -57,6 +68,8 @@ public class ProductService {
     }
 
     public ProductDto addProduct(String name, Integer quantity) {
+        log.info("Adding products!");
+
         ProductDto p = findByName(name);
 
         Product entity = Mapper.toEntity(p, Product.class);
@@ -67,6 +80,8 @@ public class ProductService {
     }
 
     public ProductDto removeProduct(String name, Integer quantity) {
+        log.info("Removing products!");
+
         ProductDto p = findByName(name);
         Product entity = Mapper.toEntity(p, Product.class);
 

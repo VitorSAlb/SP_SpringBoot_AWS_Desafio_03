@@ -21,8 +21,8 @@ INSERT INTO orders (email) VALUES
 
 
 INSERT INTO order_products (order_id, name, price, quantity) VALUES
-    (1, 'Notebook', 999.99, 1),
-    (1, 'Mouse', 20.00, 1),
-    (2, 'Banana', 1300.50, 1),
-    (3, 'Pencil', 1.90, 1),
-    (4, 'Iphone', 699.90, 2);
+    (1, 'notebook', 999.99, 1),
+    (1, 'mouse', 20.00, 1),
+    (2, 'banana', 1300.50, 1),
+    (3, 'pencil', 1.90, 1),
+    (4, 'iphone', 699.90, 2);

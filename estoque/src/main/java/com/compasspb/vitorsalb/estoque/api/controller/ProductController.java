@@ -43,12 +43,12 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(dto));
     }
 
-    @PatchMapping("/add/{name}/{quantity}")
+    @PutMapping("/add/{name}/{quantity}")
     public ResponseEntity<ProductDto> addQuantity(@PathVariable(value = "name") String name, @PathVariable(value = "quantity") Integer quantity) {
         return ResponseEntity.ok(service.addProduct(name, quantity));
     }
 
-    @PatchMapping("/remove/{name}/{quantity}")
+    @PutMapping("/remove/{name}/{quantity}")
     public ResponseEntity<ProductDto> removeQuantity(@PathVariable(value = "name") String name, @PathVariable(value = "quantity") Integer quantity) {
         return ResponseEntity.ok(service.removeProduct(name, quantity));
     }

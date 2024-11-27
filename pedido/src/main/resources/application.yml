@@ -16,3 +16,7 @@ spring:
       mode: always
 server:
   port: 8083
+
+custom:
+  client-url: "http://localhost:8082"
+  product-url: "http://localhost:8081"

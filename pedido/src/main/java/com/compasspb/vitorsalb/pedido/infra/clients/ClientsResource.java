@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "client", url = "http://localhost:8082/ms/v1/client")
+@FeignClient(name = "client", url = "${custom.client-url}/ms/v1/client")
 public interface ClientsResource {
 
     @GetMapping("/email/{email}")

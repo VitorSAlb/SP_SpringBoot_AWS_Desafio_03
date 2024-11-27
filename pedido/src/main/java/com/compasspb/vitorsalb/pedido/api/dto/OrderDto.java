@@ -5,6 +5,6 @@ import java.util.List;
 public record OrderDto(
 
         String email,
-        List<SimpleProductDto> simpleProductDtoList
+        List<SimpleProductDto> products
 ) {
 }

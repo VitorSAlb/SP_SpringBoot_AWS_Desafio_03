@@ -1,5 +1,8 @@
 package com.compasspb.vitorsalb.client.api.dto;
 
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.*;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
@@ -9,9 +12,17 @@ import java.util.Objects;
 public class ClientDto extends RepresentationModel<ClientDto> implements Serializable {
 
     private Long id;
+    @NotBlank(message = "First name is required.")
+    @Pattern(regexp = "^[A-Z].*", message = "First name must start with a capital letter.")
     private String firstName;
+    @NotBlank(message = "Last name is required.")
+    @Pattern(regexp = "^[A-Z].*", message = "The last name must start with a capital letter.")
     private String lastName;
+    @NotBlank(message = "Email is required.")
+    @Email(message = "Email must be a valid format.", regexp = "^[a-z0-9.+-]+@[a-z0-9.-]+\\.[a-z]{2,}$")
     private String email;
+    @NotNull(message = "Date is required")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
     private Integer totalOrders;
 

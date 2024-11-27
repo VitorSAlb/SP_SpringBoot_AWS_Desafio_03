@@ -23,9 +23,6 @@ public class Client {
     @Column(nullable = false)
     private LocalDate birthday;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderClient> orders = new ArrayList<>();
-
     public Client() {
     }
 
@@ -74,14 +71,6 @@ public class Client {
 
     public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
-    }
-
-    public List<OrderClient> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<OrderClient> orders) {
-        this.orders = orders;
     }
 
     @Override

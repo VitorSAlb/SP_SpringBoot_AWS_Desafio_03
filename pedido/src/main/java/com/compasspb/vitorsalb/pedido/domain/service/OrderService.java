@@ -131,4 +131,21 @@ public class OrderService {
         });
     }
 
+    public Page<OrderReturnDto> findAllByEmail(Pageable pageable, String email) {
+        Page<Order> orders = repository.findAllByEmail(pageable, email);
+
+        return orders.map(order -> {
+            List<ProductOrder> listProducts = order.getProducts();
+            List<ProductsReturnDto> productsReturnDtos = listProducts.stream()
+                    .map(product -> new ProductsReturnDto(product.getName(), product.getQuantity(), product.getPrice())).toList();
+
+            Double total = listProducts.stream().mapToDouble(product -> product.getPrice() * product.getQuantity()).sum();
+
+            OrderReturnDto returnDto = new OrderReturnDto(order.getId(), new ClientReturnDto(order.getEmail()), productsReturnDtos, total);
+            returnDto.add(linkTo(methodOn(OrderController.class).findById(order.getId())).withSelfRel());
+
+            return returnDto;
+        });
+    }
+
 }

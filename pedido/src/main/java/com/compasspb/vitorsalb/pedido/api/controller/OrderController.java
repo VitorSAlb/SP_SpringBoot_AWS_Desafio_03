@@ -27,6 +27,12 @@ public class OrderController {
         return ResponseEntity.ok(Mapper.pageableToDto(products, OrderReturnDto.class));
     }
 
+    @GetMapping("/email/{email}")
+    public ResponseEntity<PageableDto> findAllByEmail(@PageableDefault(size = 5, page = 0, sort = {"id"}) Pageable pageable, @PathVariable(value = "email") String email) {
+        Page<OrderReturnDto> products = service.findAllByEmail(pageable, email);
+        return ResponseEntity.ok(Mapper.pageableToDto(products, OrderReturnDto.class));
+    }
+
     @GetMapping("/id/{id}")
     public ResponseEntity<OrderReturnDto> findById(@PathVariable(value = "id") Long id) {
         return ResponseEntity.ok(service.findById(id));

@@ -1,4 +1,4 @@
-package com.compasspb.vitorsalb.estoque.infra.exceptions;
+package com.compasspb.vitorsalb.pedido.infra.exceptions;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -51,7 +51,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorMessage> handleFeignException(FeignException ex, HttpServletRequest request) {
         ErrorMessage errorMessage = new ErrorMessage(
                 HttpStatus.BAD_REQUEST,
-                ex.getMessage(),
+                "Error in connection of microservices",
                 request.getRequestURI()
         );
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);

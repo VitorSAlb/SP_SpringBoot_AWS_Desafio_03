@@ -13,5 +13,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface OrderResource {
 
     @GetMapping("/email/{email}")
-    public ResponseEntity<PageableDto> findAllByEmail(@PageableDefault(size = 5, page = 0, sort = {"id"}) Pageable pageable, @PathVariable(value = "email") String email);
+    ResponseEntity<PageableDto> findAllByEmail(@PageableDefault(size = 5, page = 0, sort = {"id"}) Pageable pageable, @PathVariable(value = "email") String email);
 }

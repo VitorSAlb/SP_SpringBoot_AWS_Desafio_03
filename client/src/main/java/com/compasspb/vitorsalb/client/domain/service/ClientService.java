@@ -5,6 +5,7 @@ import com.compasspb.vitorsalb.client.api.dto.ClientDto;
 import com.compasspb.vitorsalb.client.api.dto.mapper.Mapper;
 import com.compasspb.vitorsalb.client.domain.entity.Client;
 import com.compasspb.vitorsalb.client.domain.repository.ClientRepository;
+import com.compasspb.vitorsalb.client.infra.clients.OrderResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -23,6 +26,9 @@ public class ClientService {
 
     @Autowired
     private ClientRepository repository;
+
+    @Autowired
+    private OrderResource orderResource;
 
     @Transactional
     public ClientDto create(ClientDto clientDto) {
@@ -53,6 +59,14 @@ public class ClientService {
                 .orElseThrow(() -> new RuntimeException("No records found for this ID!"));
         ClientDto dto = Mapper.toDto(entity, ClientDto.class);
         dto.add(linkTo(methodOn(ClientController.class).findById(id)).withSelfRel());
+
+        int orders = 0;
+        try {
+            orders = Objects.requireNonNull(orderResource.findAllByEmail(null, entity.getEmail()).getBody()).getTotalElements();
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Error to catch orders of this Client");
+        }
+        dto.setTotalOrders(orders);
         return dto;
     }
 
@@ -63,6 +77,13 @@ public class ClientService {
                 .orElseThrow(() -> new RuntimeException("No records found for this email!"));
         ClientDto dto = Mapper.toDto(entity, ClientDto.class);
         dto.add(linkTo(methodOn(ClientController.class).findById(dto.getId())).withSelfRel());
+        int orders = 0;
+        try {
+            orders = Objects.requireNonNull(orderResource.findAllByEmail(null, entity.getEmail()).getBody()).getTotalElements();
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Error to catch orders of this Client");
+        }
+        dto.setTotalOrders(orders);
         return dto;
     }
 

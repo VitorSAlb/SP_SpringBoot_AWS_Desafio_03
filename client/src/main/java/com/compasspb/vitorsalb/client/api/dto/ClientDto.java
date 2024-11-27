@@ -7,11 +7,13 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class ClientDto extends RepresentationModel<ClientDto> implements Serializable {
+
     private Long id;
     private String firstName;
     private String lastName;
     private String email;
     private LocalDate birthday;
+    private Integer totalOrders;
 
     public ClientDto() {
     }
@@ -54,6 +56,14 @@ public class ClientDto extends RepresentationModel<ClientDto> implements Seriali
 
     public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
+    }
+
+    public Integer getTotalOrders() {
+        return totalOrders;
+    }
+
+    public void setTotalOrders(Integer totalOrders) {
+        this.totalOrders = totalOrders;
     }
 
     @Override

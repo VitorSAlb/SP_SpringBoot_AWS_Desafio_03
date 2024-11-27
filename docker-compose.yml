@@ -12,5 +12,14 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  flyway:
+    image: flyway/flyway
+    container_name: flyway-container
+    command: -url=jdbc:postgresql://postgres:5432/d3 -user=user -password=12345678 migrate
+    volumes:
+      - ./migrations:/flyway/sql
+    depends_on:
+      - postgres
+
 volumes:
   postgres_data:

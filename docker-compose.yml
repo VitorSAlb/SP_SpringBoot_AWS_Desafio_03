@@ -11,6 +11,7 @@ services:
       POSTGRES_DB: d3
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    restart: always
 
   flyway:
     image: flyway/flyway
@@ -20,6 +21,48 @@ services:
       - ./migrations:/flyway/sql
     depends_on:
       - postgres
+
+  inventory:
+    build:
+      context: ./estoque
+    container_name: inventory-container
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/d3
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: 12345678
+    ports:
+      - "8081:8080"
+    depends_on:
+      - postgres
+      - flyway
+
+  client:
+    build:
+      context: ./client
+    container_name: client-container
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/d3
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: 12345678
+    ports:
+      - "8082:8080"
+    depends_on:
+      - postgres
+      - flyway
+
+  order:
+    build:
+      context: ./pedido
+    container_name: order-container
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/d3
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: 12345678
+    ports:
+      - "8083:8080"
+    depends_on:
+      - postgres
+      - flyway
 
 volumes:
   postgres_data:

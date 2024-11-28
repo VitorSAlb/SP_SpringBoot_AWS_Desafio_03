@@ -3,7 +3,6 @@ package com.compasspb.vitorsalb.estoque.api.controller;
 import com.compasspb.vitorsalb.estoque.api.dto.PageableDto;
 import com.compasspb.vitorsalb.estoque.api.dto.ProductDto;
 import com.compasspb.vitorsalb.estoque.api.dto.mapper.Mapper;
-import com.compasspb.vitorsalb.estoque.domain.entity.Product;
 import com.compasspb.vitorsalb.estoque.domain.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -21,7 +20,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 
 @RestController
 @Tag(name = "Inventory", description = "Endpoints for Managing Products of inventory")

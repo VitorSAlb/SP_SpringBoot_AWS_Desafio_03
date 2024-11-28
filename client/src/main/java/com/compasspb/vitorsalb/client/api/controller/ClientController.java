@@ -27,6 +27,11 @@ public class ClientController {
         return ResponseEntity.ok(Mapper.pageableToDto(products, ClientDto.class));
     }
 
+    @GetMapping("/orders/{email}")
+    public ResponseEntity<PageableDto> findOrdersByEmail(@PageableDefault(size = 5, page = 0, sort = {"id"}) Pageable pageable, @PathVariable(value = "email") String email) {
+        return ResponseEntity.ok(service.notExistsByEmail(pageable, email));
+    }
+
     @GetMapping("/id/{id}")
     public ResponseEntity<ClientDto> findById(@PathVariable(value = "id") Long id) {
         return ResponseEntity.ok(service.findById(id));

@@ -16,6 +16,9 @@ import com.compasspb.vitorsalb.pedido.domain.repository.OrderRepository;
 import com.compasspb.vitorsalb.pedido.infra.clients.ClientsResource;
 import com.compasspb.vitorsalb.pedido.infra.clients.ProductResource;
 import com.compasspb.vitorsalb.pedido.infra.config.ConfigProperties;
+import com.compasspb.vitorsalb.pedido.infra.exceptions.BadRequestException;
+import com.compasspb.vitorsalb.pedido.infra.exceptions.FeignException;
+import com.compasspb.vitorsalb.pedido.infra.exceptions.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,17 +55,17 @@ public class OrderService {
     public OrderReturnDto newOrder(OrderDto order) {
         try {
             ClientDto clientDto = clientsResource.findByEmail(order.email()).getBody();
-            if (clientDto == null) throw new RuntimeException("Client not found");
+            if (clientDto == null) throw new NotFoundException("Client not found");
 
             ClientReturnDto clientReturnDto = new ClientReturnDto(clientDto.getEmail());
 
             List<SimpleProductDto> simpleProducts = order.products();
-            if (simpleProducts == null || simpleProducts.isEmpty()) throw new RuntimeException("Product list is null or empty");
+            if (simpleProducts == null || simpleProducts.isEmpty()) throw new BadRequestException("Product list is null or empty");
 
             List<ProductOrder> listProducts = simpleProducts.stream()
                     .map(p -> {
                         ProductDto dto = productResource.findById(p.name()).getBody();
-                        if (dto == null) throw new RuntimeException("Product not found: " + p.name());
+                        if (dto == null) throw new NotFoundException("Product not found: " + p.name());
 
                         log.info(dto.getId() + " -> name: " + dto.getName() + " quantity: " + p.quantity());
                         productResource.removeQuantity(dto.getName(), p.quantity());
@@ -90,12 +93,12 @@ public class OrderService {
 
             return returnDto;
         } catch (RuntimeException e) {
-            throw new RuntimeException("Error processing order: " + e.getMessage());
+            throw new FeignException("Error processing order: " + e.getMessage());
         }
     }
 
     public OrderReturnDto findById(Long id) {
-        Order entity = repository.findById(id).orElseThrow(() -> new RuntimeException("Order not found"));
+        Order entity = repository.findById(id).orElseThrow(() -> new NotFoundException("Order not found"));
         List<ProductOrder> listProducts = entity.getProducts();
         List<ProductsReturnDto> productsReturnDtos = listProducts.stream()
                 .map(product -> new ProductsReturnDto(product.getName(), product.getQuantity(), product.getPrice())).toList();
@@ -133,6 +136,8 @@ public class OrderService {
 
     public Page<OrderReturnDto> findAllByEmail(Pageable pageable, String email) {
         Page<Order> orders = repository.findAllByEmail(pageable, email);
+
+        if (orders.isEmpty()) throw new BadRequestException("This client not has orders");
 
         return orders.map(order -> {
             List<ProductOrder> listProducts = order.getProducts();

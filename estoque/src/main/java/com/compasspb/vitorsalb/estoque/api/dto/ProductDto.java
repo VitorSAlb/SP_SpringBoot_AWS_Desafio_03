@@ -2,6 +2,9 @@ package com.compasspb.vitorsalb.estoque.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
@@ -12,9 +15,13 @@ public class ProductDto extends RepresentationModel<ProductDto> implements Seria
 
     @JsonProperty("id")
     private Long id;
+    @NotBlank(message = "Name is required")
     private String name;
+    @NotBlank(message = "Description is required")
     private String description;
+    @NotNull(message = "Price is required")
     private Double price;
+    @NotNull(message = "Quantity is required")
     private Integer quantity;
 
     public ProductDto() {
@@ -28,35 +35,35 @@ public class ProductDto extends RepresentationModel<ProductDto> implements Seria
         this.id = id;
     }
 
-    public String getName() {
+    public @NotBlank String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NotBlank String name) {
         this.name = name;
     }
 
-    public String getDescription() {
+    public @NotBlank String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(@NotBlank String description) {
         this.description = description;
     }
 
-    public Double getPrice() {
+    public @NotNull Double getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(@NotNull Double price) {
         this.price = price;
     }
 
-    public Integer getQuantity() {
+    public @NotNull Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(@NotNull Integer quantity) {
         this.quantity = quantity;
     }
 

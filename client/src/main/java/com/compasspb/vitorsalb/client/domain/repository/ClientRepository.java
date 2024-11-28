@@ -14,4 +14,6 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
     @Query("SELECT c FROM Client c")
     Page<Client> findAllp(Pageable pageable);
+
+    boolean existsByEmail(String email);
 }

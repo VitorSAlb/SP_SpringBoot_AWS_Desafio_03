@@ -6,6 +6,7 @@ import com.compasspb.vitorsalb.pedido.api.dto.mapper.Mapper;
 import com.compasspb.vitorsalb.pedido.api.dto.returnDtos.OrderReturnDto;
 import com.compasspb.vitorsalb.pedido.domain.entity.Order;
 import com.compasspb.vitorsalb.pedido.domain.service.OrderService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,7 +40,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderReturnDto> create(@RequestBody OrderDto order) {
+    public ResponseEntity<OrderReturnDto> create(@RequestBody @Valid OrderDto order) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.newOrder(order));
     }
 

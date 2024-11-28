@@ -4,6 +4,7 @@ import com.compasspb.vitorsalb.client.api.dto.ClientDto;
 import com.compasspb.vitorsalb.client.api.dto.PageableDto;
 import com.compasspb.vitorsalb.client.api.dto.mapper.Mapper;
 import com.compasspb.vitorsalb.client.domain.service.ClientService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,12 +38,12 @@ public class ClientController {
     }
 
     @PostMapping
-    public ResponseEntity<ClientDto> create(@RequestBody ClientDto dto) {
+    public ResponseEntity<ClientDto> create(@RequestBody @Valid ClientDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(dto));
     }
 
     @PutMapping("/update/{email}")
-    public ResponseEntity<ClientDto> update(@PathVariable(value = "email") String email, @RequestBody ClientDto dto) {
+    public ResponseEntity<ClientDto> update(@PathVariable(value = "email") String email, @RequestBody @Valid ClientDto dto) {
         return ResponseEntity.ok(service.update(dto, email));
     }
 

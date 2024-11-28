@@ -5,6 +5,7 @@ import com.compasspb.vitorsalb.estoque.api.dto.ProductDto;
 import com.compasspb.vitorsalb.estoque.api.dto.mapper.Mapper;
 import com.compasspb.vitorsalb.estoque.domain.entity.Product;
 import com.compasspb.vitorsalb.estoque.domain.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,7 +40,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductDto> create(@RequestBody ProductDto dto) {
+    public ResponseEntity<ProductDto> create(@RequestBody @Valid ProductDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(dto));
     }
 

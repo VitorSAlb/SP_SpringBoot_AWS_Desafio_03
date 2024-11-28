@@ -6,6 +6,9 @@ import com.compasspb.vitorsalb.client.api.dto.mapper.Mapper;
 import com.compasspb.vitorsalb.client.domain.entity.Client;
 import com.compasspb.vitorsalb.client.domain.repository.ClientRepository;
 import com.compasspb.vitorsalb.client.infra.clients.OrderResource;
+import com.compasspb.vitorsalb.client.infra.exceptions.DuplicateException;
+import com.compasspb.vitorsalb.client.infra.exceptions.FeignException;
+import com.compasspb.vitorsalb.client.infra.exceptions.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +36,7 @@ public class ClientService {
     @Transactional
     public ClientDto create(ClientDto clientDto) {
 
-        if (clientDto == null) throw new RuntimeException("Required Objects Is Null"); // change exception
+        if (repository.existsByEmail(clientDto.getEmail())) throw new DuplicateException("Email already exists");
 
         log.info("Creating one client!");
 
@@ -56,7 +59,7 @@ public class ClientService {
         log.info("Finding one client with ID!");
 
         Client entity = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("No records found for this ID!"));
+                .orElseThrow(() -> new NotFoundException("No records found for this ID!"));
         ClientDto dto = Mapper.toDto(entity, ClientDto.class);
         dto.add(linkTo(methodOn(ClientController.class).findById(id)).withSelfRel());
 
@@ -64,7 +67,7 @@ public class ClientService {
         try {
             orders = Objects.requireNonNull(orderResource.findAllByEmail(null, entity.getEmail()).getBody()).getTotalElements();
         } catch (RuntimeException e) {
-            throw new RuntimeException("Error to catch orders of this Client");
+            throw new FeignException("Error to catch orders of this Client");
         }
         dto.setTotalOrders(orders);
         return dto;
@@ -74,14 +77,14 @@ public class ClientService {
         log.info("Finding one client with email!");
 
         Client entity = repository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("No records found for this email!"));
+                .orElseThrow(() -> new NotFoundException("No records found for this email!"));
         ClientDto dto = Mapper.toDto(entity, ClientDto.class);
         dto.add(linkTo(methodOn(ClientController.class).findById(dto.getId())).withSelfRel());
         int orders = 0;
         try {
             orders = Objects.requireNonNull(orderResource.findAllByEmail(null, entity.getEmail()).getBody()).getTotalElements();
         } catch (RuntimeException e) {
-            throw new RuntimeException("Error to catch orders of this Client");
+            throw new FeignException("Error to catch orders of this Client");
         }
         dto.setTotalOrders(orders);
         return dto;

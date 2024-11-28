@@ -7,8 +7,8 @@ CREATE TABLE products (
 );
 
 INSERT INTO products (description, name, price, quantity) VALUES
-    ('test', 'Notebook', 999.99, 20),
-    ('test', 'Iphone', 699.90, 20),
-    ('test', 'Pencil', 1.90, 20),
-    ('test', 'Mouse', 20.00, 20),
-    ('test', 'Banana', 1300.50, 20);
+    ('test', 'notebook', 999.99, 20),
+    ('test', 'iphone', 699.90, 20),
+    ('test', 'pencil', 1.90, 20),
+    ('test', 'mouse', 20.00, 20),
+    ('test', 'banana', 1300.50, 20);

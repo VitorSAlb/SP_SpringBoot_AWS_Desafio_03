@@ -62,17 +62,17 @@ public class ProductController {
             tags = {"Inventory"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = PageableDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),@ApiResponse(description = "No Content", responseCode = "204",
-                            content = @Content(schema = @Schema(implementation = PageableDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),@ApiResponse(description = "Bad Request", responseCode = "400",
-                            content = @Content(schema = @Schema(implementation = PageableDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),@ApiResponse(description = "Unauthorized", responseCode = "401",
-                            content = @Content(schema = @Schema(implementation = PageableDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),@ApiResponse(description = "Not Found", responseCode = "404",
-                            content = @Content(schema = @Schema(implementation = PageableDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),@ApiResponse(description = "Internal Error", responseCode = "500",
-                            content = @Content(schema = @Schema(implementation = PageableDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),
             }
     )
@@ -85,17 +85,17 @@ public class ProductController {
             tags = {"Inventory"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = PageableDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),@ApiResponse(description = "No Content", responseCode = "204",
-                    content = @Content(schema = @Schema(implementation = PageableDto.class))
+                    content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),@ApiResponse(description = "Bad Request", responseCode = "400",
-                            content = @Content(schema = @Schema(implementation = PageableDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),@ApiResponse(description = "Unauthorized", responseCode = "401",
-                            content = @Content(schema = @Schema(implementation = PageableDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),@ApiResponse(description = "Not Found", responseCode = "404",
-                            content = @Content(schema = @Schema(implementation = PageableDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),@ApiResponse(description = "Internal Error", responseCode = "500",
-                            content = @Content(schema = @Schema(implementation = PageableDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),
             }
     )
@@ -108,15 +108,15 @@ public class ProductController {
             tags = {"Inventory"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = PageableDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),@ApiResponse(description = "Bad Request", responseCode = "400",
-                            content = @Content(schema = @Schema(implementation = PageableDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),@ApiResponse(description = "Unauthorized", responseCode = "401",
-                            content = @Content(schema = @Schema(implementation = PageableDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),@ApiResponse(description = "Not Found", responseCode = "404",
-                            content = @Content(schema = @Schema(implementation = PageableDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),@ApiResponse(description = "Internal Error", responseCode = "500",
-                            content = @Content(schema = @Schema(implementation = PageableDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),
             }
     )
@@ -129,15 +129,15 @@ public class ProductController {
             tags = {"Inventory"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = PageableDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),@ApiResponse(description = "Bad Request", responseCode = "400",
-                            content = @Content(schema = @Schema(implementation = PageableDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),@ApiResponse(description = "Unauthorized", responseCode = "401",
-                            content = @Content(schema = @Schema(implementation = PageableDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),@ApiResponse(description = "Not Found", responseCode = "404",
-                            content = @Content(schema = @Schema(implementation = PageableDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),@ApiResponse(description = "Internal Error", responseCode = "500",
-                            content = @Content(schema = @Schema(implementation = PageableDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),
             }
     )
@@ -150,15 +150,15 @@ public class ProductController {
             tags = {"Inventory"},
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = PageableDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),@ApiResponse(description = "Bad Request", responseCode = "400",
-                            content = @Content(schema = @Schema(implementation = PageableDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),@ApiResponse(description = "Unauthorized", responseCode = "401",
-                            content = @Content(schema = @Schema(implementation = PageableDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),@ApiResponse(description = "Not Found", responseCode = "404",
-                            content = @Content(schema = @Schema(implementation = PageableDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),@ApiResponse(description = "Internal Error", responseCode = "500",
-                            content = @Content(schema = @Schema(implementation = PageableDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
                     ),
             }
     )

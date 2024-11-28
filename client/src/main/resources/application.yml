@@ -18,3 +18,8 @@ server:
   port: 8082
 custom:
   order-url: "http://localhost:8083"
+
+springdoc:
+  paths-to-match: /ms/v1/client/**
+  swagger-ui:
+    use-root-path: true

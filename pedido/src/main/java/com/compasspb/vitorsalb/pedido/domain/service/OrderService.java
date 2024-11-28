@@ -64,7 +64,7 @@ public class OrderService {
 
             List<ProductOrder> listProducts = simpleProducts.stream()
                     .map(p -> {
-                        ProductDto dto = productResource.findById(p.name()).getBody();
+                        ProductDto dto = productResource.findByName(p.name()).getBody();
                         if (dto == null) throw new NotFoundException("Product not found: " + p.name());
 
                         log.info(dto.getId() + " -> name: " + dto.getName() + " quantity: " + p.quantity());

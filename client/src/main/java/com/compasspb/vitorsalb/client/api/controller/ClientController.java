@@ -5,6 +5,8 @@ import com.compasspb.vitorsalb.client.api.dto.PageableDto;
 import com.compasspb.vitorsalb.client.api.dto.mapper.Mapper;
 import com.compasspb.vitorsalb.client.domain.service.ClientService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -31,6 +33,11 @@ public class ClientController {
     @GetMapping
     @Operation(summary = "Finds all Clients", description = "Finds all Clients",
             tags = {"Clients"},
+            parameters = {
+                    @Parameter(name = "size", description = "Number of items per page", example = "5", in = ParameterIn.QUERY),
+                    @Parameter(name = "page", description = "Page number (zero-based index)", example = "0", in = ParameterIn.QUERY),
+                    @Parameter(name = "sort", description = "Sorting criteria in the format: property(,asc|desc). Default is 'firstName,asc'", example = "firstName", in = ParameterIn.QUERY)
+            },
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = { @Content( mediaType = "application/json",
@@ -50,7 +57,7 @@ public class ClientController {
             ),
             }
     )
-    public ResponseEntity<PageableDto> findAll(@PageableDefault(size = 5, page = 0, sort = {"firstName"}) Pageable pageable) {
+    public ResponseEntity<PageableDto> findAll(@Parameter(hidden = true) @PageableDefault(size = 5, page = 0, sort = {"firstName"}) Pageable pageable) {
         Page<ClientDto> products = service.findAll(pageable);
         return ResponseEntity.ok(Mapper.pageableToDto(products, ClientDto.class));
     }
@@ -58,6 +65,11 @@ public class ClientController {
     @GetMapping("/orders/{email}")
     @Operation(summary = "Finds all Orders reference a client", description = "Finds all Orders reference a client",
             tags = {"Clients"},
+            parameters = {
+                    @Parameter(name = "size", description = "Number of items per page", example = "5", in = ParameterIn.QUERY),
+                    @Parameter(name = "page", description = "Page number (zero-based index)", example = "0", in = ParameterIn.QUERY),
+                    @Parameter(name = "sort", description = "Sorting criteria in the format: property(,asc|desc). Default is 'id,asc'", example = "id", in = ParameterIn.QUERY)
+            },
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200",
                             content = { @Content( mediaType = "application/json",
@@ -77,7 +89,7 @@ public class ClientController {
             ),
             }
     )
-    public ResponseEntity<PageableDto> findOrdersByEmail(@PageableDefault(size = 5, page = 0, sort = {"id"}) Pageable pageable, @PathVariable(value = "email") String email) {
+    public ResponseEntity<PageableDto> findOrdersByEmail(@Parameter(hidden = true) @PageableDefault(size = 5, page = 0, sort = {"id"}) Pageable pageable, @PathVariable(value = "email") String email) {
         return ResponseEntity.ok(service.notExistsByEmail(pageable, email));
     }
 

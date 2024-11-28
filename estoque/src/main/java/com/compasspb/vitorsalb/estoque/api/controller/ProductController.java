@@ -6,6 +6,8 @@ import com.compasspb.vitorsalb.estoque.api.dto.mapper.Mapper;
 import com.compasspb.vitorsalb.estoque.domain.entity.Product;
 import com.compasspb.vitorsalb.estoque.domain.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -33,6 +35,11 @@ public class ProductController {
     @GetMapping
     @Operation(summary = "Finds all Products", description = "Finds all Products",
         tags = {"Inventory"},
+            parameters = {
+                    @Parameter(name = "size", description = "Number of items per page", example = "5", in = ParameterIn.QUERY),
+                    @Parameter(name = "page", description = "Page number (zero-based index)", example = "0", in = ParameterIn.QUERY),
+                    @Parameter(name = "sort", description = "Sorting criteria in the format: property(,asc|desc). Default is 'name,asc'", example = "name", in = ParameterIn.QUERY)
+            },
         responses = {
             @ApiResponse(description = "Success", responseCode = "200",
                     content = { @Content( mediaType = "application/json",
@@ -52,7 +59,7 @@ public class ProductController {
             ),
         }
     )
-    public ResponseEntity<PageableDto> findAll(@PageableDefault(size = 5, page = 0, sort = {"name"}) Pageable pageable) {
+    public ResponseEntity<PageableDto> findAll(@Parameter(hidden = true) @PageableDefault(size = 5, page = 0, sort = {"name"}) Pageable pageable) {
         Page<ProductDto> products = service.findAll(pageable);
         return ResponseEntity.ok(Mapper.pageableToDto(products, ProductDto.class));
     }

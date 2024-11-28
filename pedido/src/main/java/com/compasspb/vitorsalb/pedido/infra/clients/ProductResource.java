@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 public interface ProductResource {
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<ProductDto> findById(@PathVariable(value = "name") String name);
+    public ResponseEntity<ProductDto> findByName(@PathVariable(value = "name") String name);
 
     @PutMapping("/remove/{name}/{quantity}")
     public ResponseEntity<ProductDto> removeQuantity(@PathVariable(value = "name") String name, @PathVariable(value = "quantity") Integer quantity);

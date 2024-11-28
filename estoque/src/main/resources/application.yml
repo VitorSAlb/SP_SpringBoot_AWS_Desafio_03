@@ -16,3 +16,8 @@ spring:
       mode: always
 server:
   port: 8081
+
+springdoc:
+  paths-to-match: /ms/v1/product/**
+  swagger-ui:
+    use-root-path: true

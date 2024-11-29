@@ -18,7 +18,8 @@ spring:
     cors:
       allowed-origin-patterns: http://localhost:8081,http://localhost:8082,http://localhost:8083
 server:
-  port: 8080
+  port: 8082
+#  port: 8080
 custom:
   order-url: "http://localhost:8083"
 

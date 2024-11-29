@@ -69,6 +69,7 @@ public class ClientService {
         try {
             orders = Objects.requireNonNull(orderResource.findAllByEmail(null, entity.getEmail()).getBody()).getTotalElements();
         } catch (RuntimeException e) {
+            e.printStackTrace();
             throw new FeignException("Error to catch orders of this Client");
         }
         dto.setTotalOrders(orders);

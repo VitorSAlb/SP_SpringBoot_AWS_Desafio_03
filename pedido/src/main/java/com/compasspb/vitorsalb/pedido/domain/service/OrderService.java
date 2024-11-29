@@ -92,7 +92,7 @@ public class OrderService {
             });
 
             return returnDto;
-        } catch (RuntimeException e) {
+        } catch (FeignException e) {
             throw new FeignException("Error processing order: " + e.getMessage());
         }
     }

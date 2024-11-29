@@ -12,6 +12,7 @@ import com.compasspb.vitorsalb.pedido.domain.service.OrderService;
 import com.compasspb.vitorsalb.pedido.infra.clients.ClientsResource;
 import com.compasspb.vitorsalb.pedido.infra.clients.ProductResource;
 import com.compasspb.vitorsalb.pedido.infra.config.ConfigProperties;
+import com.compasspb.vitorsalb.pedido.infra.exceptions.FeignException;
 import com.compasspb.vitorsalb.pedido.infra.exceptions.NotFoundException;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -92,4 +93,15 @@ class OrderServiceTest {
 
         assertThrows(NotFoundException.class, () -> orderService.newOrder(orderDto));
     }
+
+    @Test
+    void newOrder_ShouldThrowException_WhenFeingNotConnect() {
+        when(clientsResource.findByEmail("test@example.com")).thenThrow(FeignException.class);
+
+        OrderDto orderDto = new OrderDto("test@example.com", List.of(new SimpleProductDto("Product A", 2)));
+
+        assertThrows(FeignException.class, () -> orderService.newOrder(orderDto));
+    }
+
+
 }

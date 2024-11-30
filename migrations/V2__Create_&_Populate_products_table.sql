@@ -1,4 +1,4 @@
-CREATE TABLE products (
+CREATE TABLE inventory.products (
     id SERIAL PRIMARY KEY,
     description VARCHAR(255),
     name VARCHAR(255) NOT NULL UNIQUE ,
@@ -6,7 +6,7 @@ CREATE TABLE products (
     quantity INT NOT NULL
 );
 
-INSERT INTO products (description, name, price, quantity) VALUES
+INSERT INTO inventory.products (description, name, price, quantity) VALUES
     ('test', 'notebook', 999.99, 20),
     ('test', 'iphone', 699.90, 20),
     ('test', 'pencil', 1.90, 20),

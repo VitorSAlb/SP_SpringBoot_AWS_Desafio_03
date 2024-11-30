@@ -29,6 +29,14 @@ public class ClientDto extends RepresentationModel<ClientDto> implements Seriali
     public ClientDto() {
     }
 
+    public ClientDto(String firstName, String lastName, String email, LocalDate birthday, Integer totalOrders) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.birthday = birthday;
+        this.totalOrders = totalOrders;
+    }
+
     public Long getId() {
         return id;
     }

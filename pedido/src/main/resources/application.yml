@@ -2,7 +2,7 @@ spring:
   application:
     name: pedido
   datasource:
-    url: jdbc:postgresql://localhost:5432/d3
+    url: jdbc:postgresql://localhost:5432/d3?currentSchema=orders
     username: user
     password: 12345678
   jpa:

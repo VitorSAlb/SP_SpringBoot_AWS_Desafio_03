@@ -25,6 +25,7 @@ services:
   inventory:
     build:
       context: ./estoque
+      dockerfile: Dockerfile
     container_name: inventory-container
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/d3
@@ -39,6 +40,7 @@ services:
   client:
     build:
       context: ./client
+      dockerfile: Dockerfile
     container_name: client-container
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/d3
@@ -53,6 +55,7 @@ services:
   order:
     build:
       context: ./pedido
+      dockerfile: Dockerfile
     container_name: order-container
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/d3

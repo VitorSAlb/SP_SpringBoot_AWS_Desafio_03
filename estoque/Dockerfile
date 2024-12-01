@@ -1,6 +1,11 @@
-FROM openjdk:21-alpine
-RUN apk add --no-cache bash curl
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
+FROM maven:3.9.7-eclipse-temurin-21-alpine AS build
+WORKDIR /app
+COPY pom.xml ./
+COPY src ./src
+RUN mvn package
 
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+FROM eclipse-temurin:21-jre-alpine
+WORKDIR /app
+ARG JAR_FILE=target/*.jar
+COPY --from=build /app/${JAR_FILE} app.jar
+CMD ["java", "-jar", "app.jar"]

@@ -34,11 +34,11 @@ jobs:
           mvn clean package
           cd ..
 
-#      - name: Build client service
-#        run: |
-#          cd client
-#          mvn clean package
-#          cd ..
+      - name: Build client service
+        run: |
+          cd client
+          mvn clean package
+          cd ..
 
 #      - name: Build order service
 #        run: |

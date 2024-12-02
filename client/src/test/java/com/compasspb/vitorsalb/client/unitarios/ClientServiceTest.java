@@ -4,7 +4,6 @@ import com.compasspb.vitorsalb.client.api.dto.ClientDto;
 import com.compasspb.vitorsalb.client.domain.entity.Client;
 import com.compasspb.vitorsalb.client.domain.repository.ClientRepository;
 import com.compasspb.vitorsalb.client.domain.service.ClientService;
-import com.compasspb.vitorsalb.client.infra.clients.OrderResource;
 import com.compasspb.vitorsalb.client.infra.exceptions.DuplicateException;
 import com.compasspb.vitorsalb.client.infra.exceptions.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,9 +42,6 @@ public class ClientServiceTest {
     @Mock
     private ClientRepository repository;
 
-    @Mock
-    private OrderResource orderResource;
-
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -53,7 +49,7 @@ public class ClientServiceTest {
 
     @Test
     void newClient_shouldCreateClient_WhenValidInput() {
-        ClientDto clientDto = new ClientDto("t1", "t1", "teste1@example.com", LocalDate.now(), 2);
+        ClientDto clientDto = new ClientDto("t1", "t1", "teste1@example.com", LocalDate.now());
         Client client = new Client(1L, "t1", "t1", "teste1@example.com", LocalDate.now());
 
         when(repository.existsByEmail(clientDto.getEmail())).thenReturn(false);
@@ -68,7 +64,7 @@ public class ClientServiceTest {
 
     @Test
     void newClient_shouldThrowDuplicateException_WhenEmailExists() {
-        ClientDto clientDto = new ClientDto("t1", "t1", "teste1@example.com", LocalDate.now(), 2);
+        ClientDto clientDto = new ClientDto("t1", "t1", "teste1@example.com", LocalDate.now());
 
         when(repository.existsByEmail(clientDto.getEmail())).thenReturn(true);
 

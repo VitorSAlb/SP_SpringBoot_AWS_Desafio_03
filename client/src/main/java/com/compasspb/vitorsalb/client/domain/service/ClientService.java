@@ -6,7 +6,6 @@ import com.compasspb.vitorsalb.client.api.dto.PageableDto;
 import com.compasspb.vitorsalb.client.api.dto.mapper.Mapper;
 import com.compasspb.vitorsalb.client.domain.entity.Client;
 import com.compasspb.vitorsalb.client.domain.repository.ClientRepository;
-import com.compasspb.vitorsalb.client.infra.clients.OrderResource;
 import com.compasspb.vitorsalb.client.infra.exceptions.DuplicateException;
 import com.compasspb.vitorsalb.client.infra.exceptions.FeignException;
 import com.compasspb.vitorsalb.client.infra.exceptions.NotFoundException;
@@ -31,9 +30,6 @@ public class ClientService {
 
     @Autowired
     private ClientRepository repository;
-
-    @Autowired
-    private OrderResource orderResource;
 
     @Transactional
     public ClientDto create(ClientDto clientDto) {
@@ -65,13 +61,6 @@ public class ClientService {
         ClientDto dto = Mapper.toDto(entity, ClientDto.class);
         dto.add(linkTo(methodOn(ClientController.class).findById(id)).withSelfRel());
 
-        int orders = 0;
-        try {
-            orders = Objects.requireNonNull(orderResource.findAllByEmail(null, entity.getEmail()).getBody()).getTotalElements();
-        } catch (FeignException e) {
-            throw new FeignException("Error to catch orders of this Client");
-        }
-        dto.setTotalOrders(orders);
         return dto;
     }
 
@@ -82,19 +71,8 @@ public class ClientService {
                 .orElseThrow(() -> new NotFoundException("No records found for this email!"));
         ClientDto dto = Mapper.toDto(entity, ClientDto.class);
         dto.add(linkTo(methodOn(ClientController.class).findById(dto.getId())).withSelfRel());
-        int orders = 0;
-        try {
-            orders = Objects.requireNonNull(orderResource.findAllByEmail(null, entity.getEmail()).getBody()).getTotalElements();
-        } catch (RuntimeException e) {
-            throw new FeignException("Error to catch orders of this Client");
-        }
-        dto.setTotalOrders(orders);
-        return dto;
-    }
 
-    public PageableDto notExistsByEmail(Pageable peageble, String email) {
-        if (!repository.existsByEmail(email)) throw new DuplicateException("Email don't exists");
-        return orderResource.findAllByEmail(peageble, email).getBody();
+        return dto;
     }
 
     @Transactional

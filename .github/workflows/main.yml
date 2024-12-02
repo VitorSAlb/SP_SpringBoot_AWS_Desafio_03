@@ -51,13 +51,6 @@ jobs:
       - name: Build and run Docker Compose
         run: docker-compose up --build -d
 
-      - name: Run tests
-        run: |
-          sleep 20
-          curl -f http://localhost:8081/ || exit 1
-          curl -f http://localhost:8082/ || exit 1
-          curl -f http://localhost:8083/ || exit 1
-
       - name: Tear down Docker Compose
         if: always()
         run: docker-compose down

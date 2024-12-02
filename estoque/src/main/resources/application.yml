@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: estoque
+  datasource:
+    url: jdbc:postgresql://localhost:5432/d3?currentSchema=inventory
+    username: user
+    password: 12345678
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  sql:
+    init:
+      mode: always
+  graphql:
+    cors:
+      allowed-origin-patterns: http://localhost:8081,http://localhost:8082,http://localhost:8083
+server:
+#  port: 8081
+  port: 8080
+springdoc:
+  paths-to-match: /ms/v1/product/**
+  swagger-ui:
+    use-root-path: true

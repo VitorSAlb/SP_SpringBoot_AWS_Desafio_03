@@ -1,0 +1,72 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres
+    container_name: postgres-container
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: 12345678
+      POSTGRES_DB: d3
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d
+    restart: always
+
+  flyway:
+    image: flyway/flyway
+    container_name: flyway-container
+    command: -url=jdbc:postgresql://postgres:5432/d3 -user=user -password=12345678 migrate
+    volumes:
+      - ./migrations:/flyway/sql
+    depends_on:
+      - postgres
+
+  inventory:
+    build:
+      context: ./estoque
+      dockerfile: Dockerfile
+    container_name: inventory-container
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/d3
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: 12345678
+    ports:
+      - "8081:8080"
+    depends_on:
+      - postgres
+      - flyway
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: client-container
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/d3
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: 12345678
+    ports:
+      - "8082:8080"
+    depends_on:
+      - postgres
+      - flyway
+
+  order:
+    build:
+      context: ./pedido
+      dockerfile: Dockerfile
+    container_name: order-container
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/d3
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: 12345678
+    ports:
+      - "8083:8080"
+    depends_on:
+      - postgres
+      - flyway
+
+volumes:
+  postgres_data:

@@ -24,17 +24,15 @@ public class ClientDto extends RepresentationModel<ClientDto> implements Seriali
     @NotNull(message = "Date is required")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
-    private Integer totalOrders;
 
     public ClientDto() {
     }
 
-    public ClientDto(String firstName, String lastName, String email, LocalDate birthday, Integer totalOrders) {
+    public ClientDto(String firstName, String lastName, String email, LocalDate birthday) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.birthday = birthday;
-        this.totalOrders = totalOrders;
     }
 
     public Long getId() {
@@ -75,14 +73,6 @@ public class ClientDto extends RepresentationModel<ClientDto> implements Seriali
 
     public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
-    }
-
-    public Integer getTotalOrders() {
-        return totalOrders;
-    }
-
-    public void setTotalOrders(Integer totalOrders) {
-        this.totalOrders = totalOrders;
     }
 
     @Override

@@ -62,37 +62,6 @@ public class ClientController {
         return ResponseEntity.ok(Mapper.pageableToDto(products, ClientDto.class));
     }
 
-    @GetMapping("/orders/{email}")
-    @Operation(summary = "Finds all Orders reference a client", description = "Finds all Orders reference a client",
-            tags = {"Clients"},
-            parameters = {
-                    @Parameter(name = "size", description = "Number of items per page", example = "5", in = ParameterIn.QUERY),
-                    @Parameter(name = "page", description = "Page number (zero-based index)", example = "0", in = ParameterIn.QUERY),
-                    @Parameter(name = "sort", description = "Sorting criteria in the format: property(,asc|desc). Default is 'id,asc'", example = "id", in = ParameterIn.QUERY)
-            },
-            responses = {
-                    @ApiResponse(description = "Success", responseCode = "200",
-                            content = { @Content( mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = PageableDto.class)))}
-                    ),@ApiResponse(description = "Bad Request", responseCode = "400",
-                    content = { @Content( mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = PageableDto.class)))}
-            ),@ApiResponse(description = "Unauthorized", responseCode = "401",
-                    content = { @Content( mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = PageableDto.class)))}
-            ),@ApiResponse(description = "Not Found", responseCode = "404",
-                    content = { @Content( mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = PageableDto.class)))}
-            ),@ApiResponse(description = "Internal Error", responseCode = "500",
-                    content = { @Content( mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = PageableDto.class)))}
-            ),
-            }
-    )
-    public ResponseEntity<PageableDto> findOrdersByEmail(@Parameter(hidden = true) @PageableDefault(size = 5, page = 0, sort = {"id"}) Pageable pageable, @PathVariable(value = "email") String email) {
-        return ResponseEntity.ok(service.notExistsByEmail(pageable, email));
-    }
-
     @GetMapping("/id/{id}")
     @Operation(summary = "Finds by Id", description = "Finds by Id",
             tags = {"Clients"},

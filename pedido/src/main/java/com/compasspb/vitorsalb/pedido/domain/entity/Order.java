@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "orders", schema = "orders")
 public class Order {
 
     @Id
@@ -16,7 +16,7 @@ public class Order {
     @Column(nullable = false)
     private String email;
     @ElementCollection
-    @CollectionTable(name = "order_products", joinColumns = @JoinColumn(name = "order_id"))
+    @CollectionTable(name = "order_products", joinColumns = @JoinColumn(name = "order_id"), schema = "orders")
     private List<ProductOrder> products = new ArrayList<>();
 
     public Order() {

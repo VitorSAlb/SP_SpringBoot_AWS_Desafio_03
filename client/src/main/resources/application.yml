@@ -2,7 +2,7 @@ spring:
   application:
     name: client
   datasource:
-    url: jdbc:postgresql://localhost:5432/d3?currentSchema=clients
+    url: jdbc:postgresql://localhost:5435/db_client
     username: user
     password: 12345678
   jpa:
@@ -14,9 +14,6 @@ spring:
   sql:
     init:
       mode: always
-  graphql:
-    cors:
-      allowed-origin-patterns: http://localhost:8081,http://localhost:8082,http://localhost:8083
 server:
 #  port: 8082
   port: 8080

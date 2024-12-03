@@ -1,23 +1,23 @@
-version: '3.8'
 services:
 
   postgres_client:
     image: postgres
-    container_name: postgres_client_container
+    container_name: postgres-client-container
     ports:
-      - "5435:5433"
+      - "5433:5432"
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: 12345678
-      POSTGRES_DB: db_client
+      POSTGRES_DB: d3Client
     volumes:
       - postgres_client_data:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d
     restart: always
 
   flyway_client:
     image: flyway/flyway
     container_name: flyway-client-container
-    command: -url=jdbc:postgresql://postgres_client:5433/db_client -user=user -password=12345678 migrate
+    command: -url=jdbc:postgresql://postgres_client:5432/d3Client -user=user -password=12345678 migrate
     volumes:
       - ../migrations/clients:/flyway/sql
     depends_on:
@@ -29,7 +29,7 @@ services:
       dockerfile: Dockerfile
     container_name: client-container
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_client:5435/db_client
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_client:5432/d3Client
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: 12345678
     ports:

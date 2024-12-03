@@ -40,11 +40,11 @@ jobs:
           mvn clean package
           cd ..
 
-#      - name: Build order service
-#        run: |
-#          cd pedido
-#          mvn clean package
-#          cd ..
+      - name: Build order service
+        run: |
+          cd pedido
+          mvn clean package
+          cd ..
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2

@@ -29,8 +29,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -79,16 +78,17 @@ class OrderServiceTest {
 
         OrderReturnDto result = orderService.newOrder(orderDto);
 
-        String clientLink = result.getLinks("client").toString().substring(2, 57);
-
         assertNotNull(result);
         assertEquals("test@example.com", result.getClient().getEmail());
         assertEquals(200.0, result.getTotal());
-        assertEquals("www.localhost:testC/ms/v1/client/email/test@example.com", clientLink);
-        verify(productResource).removeQuantity("Product A", 2);
+
+        String clientLink = result.getLinks("client").toString();
+        assertTrue(clientLink.contains("www.localhost:testC/ms/v1/client/email/test@example.com"));
+
         verify(productResource).findByName("Product A");
         verify(productResource).removeQuantity("Product A", 2);
     }
+
 
     @Test
     void newOrder_ShouldThrowException_WhenClientNotFound() {

@@ -18,8 +18,8 @@ spring:
     cors:
       allowed-origin-patterns: http://localhost:8081,http://localhost:8082,http://localhost:8083,http://localhost:8080
 server:
-#  port: 8081
-  port: 8080
+  port: 8081
+#  port: 8080
 springdoc:
   paths-to-match: /ms/v1/product/**
   swagger-ui:

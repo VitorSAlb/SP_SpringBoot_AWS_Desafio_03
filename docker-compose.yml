@@ -33,7 +33,7 @@ services:
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: 12345678
     ports:
-      - "8081:8080"
+      - "8080:8081"
     depends_on:
       - postgres
       - flyway
@@ -47,9 +47,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/d3
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: 12345678
-      CLIENT_SERVICE_URL: http://client:8082/ms/v1/client
     ports:
-      - "8083:8080"
+      - "8080:8083"
     depends_on:
       - postgres
       - flyway

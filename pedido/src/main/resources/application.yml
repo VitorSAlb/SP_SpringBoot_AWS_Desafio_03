@@ -16,12 +16,12 @@ spring:
       mode: always
 
 server:
-#  port: 8083
-  port: 8080
+  port: 8083
+#  port: 8080
 
 
 custom:
-  client-url: "http://localhost:8082"
+  client-url: "http://ec2-18-228-150-172.sa-east-1.compute.amazonaws.com:8080"
   external-client-url: "http://client:8080"
   external-product-url: "http://inventory:8080"
   product-url: "http://localhost:8081"

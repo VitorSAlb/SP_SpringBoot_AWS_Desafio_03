@@ -21,7 +21,7 @@ server:
 
 
 custom:
-  client-url: "http://client:8082"
+  client-url: "http://localhost:8082"
   external-client-url: "http://client:8080"
   external-product-url: "http://inventory:8080"
   product-url: "http://localhost:8081"

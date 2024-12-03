@@ -14,17 +14,15 @@ spring:
   sql:
     init:
       mode: always
-  graphql:
-    cors:
-      allowed-origin-patterns: http://localhost:8081,http://localhost:8082,http://localhost:8083
 
 server:
 #  port: 8083
   port: 8080
 
+
 custom:
-  client-url: "http://client:8080"
+  client-url: "http://client:8082"
   external-client-url: "http://client:8080"
   external-product-url: "http://inventory:8080"
-  product-url: "http://inventory:8080"
+  product-url: "http://localhost:8081"
 

@@ -19,7 +19,7 @@ services:
     container_name: flyway-container
     command: -url=jdbc:postgresql://postgres:5432/d3 -user=user -password=12345678 migrate
     volumes:
-      - ./migrations:/flyway/sql
+      - ./migrations/inventoryOrder:/flyway/sql
     depends_on:
       - postgres
 
@@ -38,21 +38,6 @@ services:
       - postgres
       - flyway
 
-  client:
-    build:
-      context: ./client
-      dockerfile: Dockerfile
-    container_name: client-container
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/d3
-      SPRING_DATASOURCE_USERNAME: user
-      SPRING_DATASOURCE_PASSWORD: 12345678
-    ports:
-      - "8082:8080"
-    depends_on:
-      - postgres
-      - flyway
-
   order:
     build:
       context: ./pedido
@@ -62,11 +47,20 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/d3
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: 12345678
+      CLIENT_SERVICE_URL: http://client:8082/ms/v1/client
     ports:
       - "8083:8080"
     depends_on:
       - postgres
       - flyway
+#    networks:
+#      - shared-network
+#
+#
+#networks:
+#  shared-network:
+#    external: true
+
 
 volumes:
   postgres_data:

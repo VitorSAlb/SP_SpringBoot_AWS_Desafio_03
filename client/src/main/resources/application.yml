@@ -15,8 +15,8 @@ spring:
     init:
       mode: always
 server:
-#  port: 8082
-  port: 8080
+  port: 8082
+#  port: 8080
 
 springdoc:
   paths-to-match: /ms/v1/client/**

@@ -53,10 +53,9 @@ public class OrderService {
 
     @Transactional
     public OrderReturnDto newOrder(OrderDto order) {
+        ClientDto clientDto = clientsResource.findByEmail(order.email()).getBody();
+        if (clientDto == null) throw new NotFoundException("Client not found");
         try {
-            ClientDto clientDto = clientsResource.findByEmail(order.email()).getBody();
-            if (clientDto == null) throw new NotFoundException("Client not found");
-
             ClientReturnDto clientReturnDto = new ClientReturnDto(clientDto.getEmail());
 
             List<SimpleProductDto> simpleProducts = order.products();
